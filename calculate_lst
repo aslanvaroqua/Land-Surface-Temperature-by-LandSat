@@ -11,13 +11,13 @@ from grass.pygrass.gis import Mapset
 import grass.script as grass 
 
 # Define path to Landsat images
-path = "C:\Users\avaro\OneDrive\Desktop\Workspace\LSTSandH"
+path = "C:\Users\avaro\OneDrive\Desktop\Workspace\lsat_utah"
 
 #Define Path to AOI
-path_aoi = "C:\Users\avaro\OneDrive\Desktop\Workspace\LSTSandH\aoi.shp"
+path_aoi = "C:\Users\avaro\OneDrive\Desktop\Workspace\lsat_utah\aoi.shp"
 
 #Define path to landcover
-path_landcover = "/media/sf_GEO450/FROM-GLC/landcover_merged"
+path_landcover = "C:\Users\avaro\OneDrive\Desktop\Workspace\lsat_utah_cover"
 
 #Define path to the output
 path_output = path
