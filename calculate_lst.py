@@ -9,15 +9,51 @@ from grass.pygrass.modules import Module
 from grass.script import setup as gsetup
 from grass.pygrass.gis import Mapset
 import grass.script as grass 
+from landsat.downloader import Downloader as dl
+import landsatxplore
+from landsatxplore.api import API as api
 
-# Define path to Landsat images
-path = "C:\Users\avaro\OneDrive\Desktop\Workspace\lsat_utah"
+site_id = 12
+
+
+api = api("skylinegis","pepsiav123pepsiav123")
+
+dataset = "LANDSAT_8_C1"
+
+latitude, longitude = 27.2942518,-81.3590276
+
+
+start_date = "2019-01-01"
+end_date = "2019-04-04"
+months=04
+
+max_cloud_cover=None
+
+path = os.chdir("C:\\\\Users\\avaro\\Desktop\\LST\\" + scene_id + "\\")
+user = "skylinesgis"
+pass = "pepsiav123pepsiav123"
+
+scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,  start_date=start_date, end_date=end_date, max_cloud_cover=max_cloud_cover, months=months, max_results=2)
+
+print('{} scenes found.'.format(len(scenes)))
+    
+dl = Download(download_dir=path + "output\\")],usgs_user=user,usgs_pass=pass)
+for scene in scenes:
+	    
+    print(scene['downloadUrl'])
+
+    #dl.fetch(url=scene['downloadUrl'],path=path)
+    dl.usgs_eros(scene=scene,path=path)
+
+api.logout()
+
+path = path_aoi = "C:\\\\Users\\avaro\\site_" 
 
 #Define Path to AOI
-path_aoi = "C:\Users\avaro\OneDrive\Desktop\Workspace\lsat_utah\aoi.shp"
+path_aoi = "C:\\\\Users\\avaro\\site_" + site_id + ".shp"
 
 #Define path to landcover
-path_landcover = "C:\Users\avaro\OneDrive\Desktop\Workspace\lsat_utah_cover"
+path_landcover = "C:\\\\Users\\avaro\\site_" + site_i + ".shp"
 
 #Define path to the output
 path_output = path
