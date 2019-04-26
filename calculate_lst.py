@@ -13,20 +13,17 @@ from landsat.downloader import Downloader as dl
 import landsatxplore
 from landsatxplore.api import API as api
 from landsatxplore.earthexplorer import EarthExplorer as ee
-import os
+import os, sys
 
+site_id = sys.argv[0]
 
-site_id = str(129)
-
-
-api = api("skylinegis","pepsiav123pepsiav123")
 
 dataset = "LANDSAT_8_C1"
 
-latitude, longitude =  33.8722886, -112.29446 
+latitude, longitude =  sys.argv[1], sys.argv[2]
 
 
-start_date = "2019-01-01"
+start_date = sys.argv[3]
 end_date = None
 months=None
 
@@ -35,6 +32,7 @@ max_cloud_cover=None
 path = "/mnt/c/Users/avaro/Desktop/LST/" + site_id + "/"
 user = "skylinegis"
 pw = "pepsiav123pepsiav123"
+api = api(user,pw)
 
 # scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,  start_date=start_date, end_date=end_date, max_cloud_cover=max_cloud_cover, months=months, max_results=2)
 scenes = api.search( dataset, latitude=latitude, longitude=longitude,max_cloud_cover=max_cloud_cover, months=months)
@@ -42,21 +40,17 @@ scenes = api.search( dataset, latitude=latitude, longitude=longitude,max_cloud_c
 print('{} scenes found.'.format(len(scenes)))
 api.logout()
 
+#init downloader
 downloader = ee(user, pw)
 
-#for scene in scenes:
-	    
-		
+# entity id of latest
 print(scenes[0]['entityId'])
 
-    
+# download & persist
 downloader.download(scenes[0]['entityId'],path)
 
-
-
-
+#close session
 downloader.logout()
-
 
 #Define Path to AOI
 path_aoi = path + "aoi.shp"
@@ -64,9 +58,7 @@ path_aoi = path + "aoi.shp"
 #Define path to landcover
 path_lc = path + "lc.tif"
 
-
-
-# Set mapset parameter
+# Set mapset parameter for GRASS GIS
 mapset = Mapset()
 #print mapset
 
@@ -112,21 +104,22 @@ Module("r.import",
 # Apply LST-Skript and export TIFs
 for i in files_bqa:
 	Module("i.landsat8.swlst", 
-	overwrite = True, 
-	mtl= i[0:len(i)-7]+"MTL.txt",
-	b10=i[-28:-7]+ "B10@" + str(mapset),
-	b11=i[-28:-7]+"B11@" + str(mapset),
-	qab=i[-28:-4]+ "@" + str(mapset),
-	landcover="landcover@"+str(mapset),
-	lst=i[-28:-7]+"_LST")
-    	Module("r.out.gdal",
-    	flags = "f",
-    	overwrite = True,
-    	input= i[-28:-7]+"_LST@" + str(mapset),
-   	output= path_output + i[-28:-7]+"_LST.TIF",
-    	format="GTiff",
-    	type="UInt16",
-    	nodata=9999)
+		overwrite = True, 
+		mtl= i[0:len(i)-7]+"MTL.txt",
+		b10=i[-28:-7]+ "B10@" + str(mapset),
+		b11=i[-28:-7]+"B11@" + str(mapset),
+		qab=i[-28:-4]+ "@" + str(mapset),
+		landcover="landcover@"+str(mapset),
+		lst=i[-28:-7]+"_LST")
+       
+   	Module("r.out.gdal",
+		flags = "f",
+		overwrite = True,
+		input= i[-28:-7]+"_LST@" + str(mapset),
+		output= path_output + i[-28:-7]+"_LST.TIF",
+		format="GTiff",
+		type="UInt16",
+		nodata=9999)
 
 # Remove everything (does not delete files, only maps)
-# g.remove type=raster,vector pattern=* -f
+g.remove type=raster,vector pattern=* -f
