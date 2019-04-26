@@ -12,7 +12,7 @@ import grass.script as grass
 from landsat.downloader import Downloader as dl
 import landsatxplore
 from landsatxplore.api import API as api
-from landsatxplore.earthexplorer import EarthExplorer
+from landsatxplore.earthexplorer import EarthExplorer as ee
 import os
 
 
@@ -27,33 +27,32 @@ latitude, longitude =  33.8722886, -112.29446
 
 
 start_date = "2019-01-01"
-end_date = "2019-04-04"
-months='04'
+end_date = None
+months=None
 
 max_cloud_cover=None
 
 path = "/mnt/c/Users/avaro/Desktop/LST/" + site_id + "/"
-user = "skylinesgis"
+user = "skylinegis"
 pw = "pepsiav123pepsiav123"
 
 scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,  start_date=start_date, end_date=end_date, max_cloud_cover=max_cloud_cover, months=months, max_results=2)
 
 print('{} scenes found.'.format(len(scenes)))
-    
-dl = dl(download_dir=path + "output\\",usgs_user=user,usgs_pass=pw)
+api.logout()
+
+downloader = ee(user, pw)
 
 for scene in scenes:
 	    
-    print(scene['downloadUrl'])
+    print(scene['entityId'])
 
-    #dl.fetch(url=scene['downloadUrl'],path=path)
-    dl.usgs_eros(scene=scene,path=path)
-# ee = EarthExplorer(username, password)ee.logout()
+    downloader.download(scene['entityId'],path)
 
 
-# ee.download(scene_id='LT51960471995178MPS00', output_dir='./data')
 
-api.logout()
+
+downloader.logout()
 
 
 #Define Path to AOI
