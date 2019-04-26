@@ -13,9 +13,10 @@ from landsat.downloader import Downloader as dl
 import landsatxplore
 from landsatxplore.api import API as api
 from landsatxplore.earthexplorer import EarthExplorer
+import os
 
 
-site_id = 129
+site_id = str(129)
 
 
 api = api("skylinegis","pepsiav123pepsiav123")
