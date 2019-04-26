@@ -14,7 +14,7 @@ import landsatxplore
 from landsatxplore.api import API as api
 from landsatxplore.earthexplorer import EarthExplorer as ee
 import os, sys
-
+import subprocess
 site_id = sys.argv[0]
 
 
@@ -61,6 +61,11 @@ path_lc = path + "lc.tif"
 # Set mapset parameter for GRASS GIS
 mapset = Mapset()
 #print mapset
+
+process = Popen(['tar','-xhf', scenes[0]['displayId'] + ".tar.gz"], stdout=PIPE, stderr=PIPE)
+stdout,stderr = process.communicate()
+print(stdout)
+print(stderr)
 
 # Look up B10 and B11 TIF-files in dir + subdirs and write path/filename to "files"
 files = glob.glob(path + '/*B[1][0-1].TIF')
