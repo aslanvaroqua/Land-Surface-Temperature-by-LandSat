@@ -32,15 +32,15 @@ months='04'
 
 max_cloud_cover=None
 
-path = os.chdir("/mnt/c/Users/avaro/Desktop/LST/" + site_id + "/")
+path = "/mnt/c/Users/avaro/Desktop/LST/" + site_id + "/"
 user = "skylinesgis"
-pass = "pepsiav123pepsiav123"
+pw = "pepsiav123pepsiav123"
 
 scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,  start_date=start_date, end_date=end_date, max_cloud_cover=max_cloud_cover, months=months, max_results=2)
 
 print('{} scenes found.'.format(len(scenes)))
     
-dl = Download(download_dir=path + "output\\")],usgs_user=user,usgs_pass=pass)
+dl = Download(download_dir=path + "output\\")],usgs_user=user,usgs_pass=pw)
 for scene in scenes:
 	    
     print(scene['downloadUrl'])
