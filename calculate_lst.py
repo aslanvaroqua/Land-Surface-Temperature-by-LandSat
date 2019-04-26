@@ -15,7 +15,6 @@ from landsatxplore.api import API as api
 from landsatxplore.earthexplorer import EarthExplorer
 
 
-ee.logout()
 site_id = 129
 
 
@@ -47,7 +46,8 @@ for scene in scenes:
 
     #dl.fetch(url=scene['downloadUrl'],path=path)
     dl.usgs_eros(scene=scene,path=path)
-# ee = EarthExplorer(username, password)
+# ee = EarthExplorer(username, password)ee.logout()
+
 
 # ee.download(scene_id='LT51960471995178MPS00', output_dir='./data')
 
