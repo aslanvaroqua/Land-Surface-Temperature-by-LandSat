@@ -40,7 +40,8 @@ scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,
 
 print('{} scenes found.'.format(len(scenes)))
     
-dl = Download(download_dir=path + "output\\")],usgs_user=user,usgs_pass=pw)
+dl = dl(download_dir=path + "output\\",usgs_user=user,usgs_pass=pw)
+
 for scene in scenes:
 	    
     print(scene['downloadUrl'])
