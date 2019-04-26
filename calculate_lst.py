@@ -36,18 +36,21 @@ path = "/mnt/c/Users/avaro/Desktop/LST/" + site_id + "/"
 user = "skylinegis"
 pw = "pepsiav123pepsiav123"
 
-scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,  start_date=start_date, end_date=end_date, max_cloud_cover=max_cloud_cover, months=months, max_results=2)
+# scenes = api.search( dataset, latitude=latitude, longitude=longitude, bbox=None,  start_date=start_date, end_date=end_date, max_cloud_cover=max_cloud_cover, months=months, max_results=2)
+scenes = api.search( dataset, latitude=latitude, longitude=longitude,max_cloud_cover=max_cloud_cover, months=months)
 
 print('{} scenes found.'.format(len(scenes)))
 api.logout()
 
 downloader = ee(user, pw)
 
-for scene in scenes:
+#for scene in scenes:
 	    
-    print(scene['entityId'])
+		
+print(scenes[0]['entityId'])
 
-    downloader.download(scene['entityId'],path)
+    
+downloader.download(scenes[0]['entityId'],path)
 
 
 
