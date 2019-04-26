@@ -12,15 +12,18 @@ import grass.script as grass
 from landsat.downloader import Downloader as dl
 import landsatxplore
 from landsatxplore.api import API as api
+from landsatxplore.earthexplorer import EarthExplorer
 
-site_id = 12
+
+ee.logout()
+site_id = 129
 
 
 api = api("skylinegis","pepsiav123pepsiav123")
 
 dataset = "LANDSAT_8_C1"
 
-latitude, longitude = 27.2942518,-81.3590276
+latitude, longitude =  33.8722886, -112.29446 
 
 
 start_date = "2019-01-01"
@@ -44,32 +47,33 @@ for scene in scenes:
 
     #dl.fetch(url=scene['downloadUrl'],path=path)
     dl.usgs_eros(scene=scene,path=path)
+# ee = EarthExplorer(username, password)
+
+# ee.download(scene_id='LT51960471995178MPS00', output_dir='./data')
 
 api.logout()
 
-path = path_aoi = "C:\\\\Users\\avaro\\site_" 
 
 #Define Path to AOI
-path_aoi = "C:\\\\Users\\avaro\\site_" + site_id + ".shp"
+path_aoi = path + "aoi.shp"
 
 #Define path to landcover
-path_landcover = "C:\\\\Users\\avaro\\site_" + site_i + ".shp"
+path_lc = path + "lc.tif"
 
-#Define path to the output
-path_output = path
+
 
 # Set mapset parameter
 mapset = Mapset()
 #print mapset
 
 # Look up B10 and B11 TIF-files in dir + subdirs and write path/filename to "files"
-files = glob.glob(path + '/**/*B[1][0-1].TIF')
+files = glob.glob(path + '/*B[1][0-1].TIF')
 
 # Look up BQA TIF-files in dir + subdirs and write path/filename to "files_temp"
-files_bqa = glob.glob(path + '/**/*BQA.TIF')
+files_bqa = glob.glob(path + '/*BQA.TIF')
 
 # Create list with B10 only (for lst creation)
-#files_b10 = glob.glob(path + '/**/*B[1][0].TIF')
+files_b10 = glob.glob(path + '/*B[1][0].TIF')
 
 # Add "files_temp" to "files"
 files.extend(files_bqa)
