@@ -29,7 +29,7 @@ months='04'
 
 max_cloud_cover=None
 
-path = os.chdir("C:\\\\Users\\avaro\\Desktop\\LST\\" + scene_id + "\\")
+path = os.chdir("C:\\\\Users\\avaro\\Desktop\\LST\\" + site_id + "\\")
 user = "skylinesgis"
 pass = "pepsiav123pepsiav123"
 
